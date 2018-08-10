@@ -1,0 +1,59 @@
+Option Compare Database
+
+Public Function DBIntro()
+
+Dim userName As String, userResponse As String
+Dim strPrompt As String, strTitle As String
+Dim strSpath As String, intUserID As Integer
+Dim userType As String, strFinalMsg As String
+
+intUserID = CurrentUserID
+userName = GetUserName
+
+userType = strJPull("Select Role from er_tusers Where ID = " & intUserID)
+strTitle = " BIG USER!!! "
+strPrompt =  "Welcome to the new EDS." & vbCrLf & vbCrLf & _
+   "You'll need to change some lines of code to make this database work." & vbCrLf & _
+   "Are you ready to begin?"
+
+intResponse = MsgBox(strPrompt, vbExclamation + vbYesNo, strTitle)
+
+    If intResponse = vbYes Then
+        MsgBox "Great!  The VBA Editor should now open possibly on your second monitor." & vbCrLf & vbCrLf & _
+            "I'll take you through some code blocks (~10) I've designated where you'll need to change file paths to your liking." & vbCrLf & _
+            "Each code block will have text in Green commented out telling you what to change and will look like this ###BRAD####.", vbInformation
+        Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+        Call Jumper(23)
+        
+    MsgBox "Do you see it?  & vbCrLf & Change this file path to where you want you attachments to go.", vbQuestion
+
+    MsgBox "Ready for the next one?", vbOKOnly
+        Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+        Call Jumper(160)
+    
+    MsgBox "And the next one?", vbOKOnly
+        Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+        Call Jumper(424)
+        
+    MsgBox "And the next one?", vbOKOnly
+       Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+       Call Jumper(585)
+       
+    MsgBox "And the next one?", vbOKOnly
+       Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+       Call Jumper(881)
+      
+strFinalMsg = "Congrats! You should be all done with the file paths." & vbCrLf & _
+                    "You'll need to contact me regarding clearing the sample data that's currently in the EDS." & vbCrLf & vbCrLf & _
+                    "For any other issues, just give a ring on the telly or send an email."
+            
+    MsgBox strFinalMsg, vbInformation, strTitle
+    Else
+        
+    End If
+    
+End Function
+
+Public Function Jumper(line As Long)
+    Application.VBE.ActiveCodePane.SetSelection line, 1, line, 1
+End Function
