@@ -10,7 +10,7 @@ Dim userType As String, strFinalMsg As String
 intUserID = CurrentUserID
 userName = GetUserName
 
-userType = strJPull("Select Role from er_tusers Where ID = " & intUserID)
+userType = strJPull("Select Role from [table_name] Where ID = " & intUserID)
 strTitle = " BIG USER!!! "
 strPrompt =  "Welcome to the new EDS." & vbCrLf & vbCrLf & _
    "You'll need to change some lines of code to make this database work." & vbCrLf & _
@@ -22,25 +22,25 @@ intResponse = MsgBox(strPrompt, vbExclamation + vbYesNo, strTitle)
         MsgBox "Great!  The VBA Editor should now open possibly on your second monitor." & vbCrLf & vbCrLf & _
             "I'll take you through some code blocks (~10) I've designated where you'll need to change file paths to your liking." & vbCrLf & _
             "Each code block will have text in Green commented out telling you what to change and will look like this ###BRAD####.", vbInformation
-        Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+        Application.VBE.ActiveVBProject.VBComponents("Form_frmName").CodeModule.CodePane.Show
         Call Jumper(23)
         
     MsgBox "Do you see it?  & vbCrLf & Change this file path to where you want you attachments to go.", vbQuestion
 
     MsgBox "Ready for the next one?", vbOKOnly
-        Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+        Application.VBE.ActiveVBProject.VBComponents("Form_frmName").CodeModule.CodePane.Show
         Call Jumper(160)
     
     MsgBox "And the next one?", vbOKOnly
-        Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+        Application.VBE.ActiveVBProject.VBComponents("Form_frmName").CodeModule.CodePane.Show
         Call Jumper(424)
         
     MsgBox "And the next one?", vbOKOnly
-       Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+       Application.VBE.ActiveVBProject.VBComponents("Form_frmName").CodeModule.CodePane.Show
        Call Jumper(585)
        
     MsgBox "And the next one?", vbOKOnly
-       Application.VBE.ActiveVBProject.VBComponents("Form_frmJob").CodeModule.CodePane.Show
+       Application.VBE.ActiveVBProject.VBComponents("Form_frmName").CodeModule.CodePane.Show
        Call Jumper(881)
       
 strFinalMsg = "Congrats! You should be all done with the file paths." & vbCrLf & _
