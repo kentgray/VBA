@@ -1,0 +1,31 @@
+'This function was created to reset the ID fields without deleting relationships
+' used by this table with other tables in queries.
+
+Public Function UpdateID()
+Dim db As DAO.Database
+Dim rst As DAO.Recordset
+Dim strSQL As String
+Dim i As Integer
+    strSQL = "Select * From [table_name] Order by [ID]"
+    Set db = CurrentDb
+    Set rst = db.OpenRecordset(strSQL, dbOpenDynaset)
+    rst.MoveFirst
+    i = 1
+
+    Do
+        rst.Edit
+        rst![ID] = i
+        rst.Update
+        rst.MoveNext
+        i = i + 1
+    Loop Until rst.EOF
+    rst.Close
+    Set rst = Nothing
+    Set db = Nothing
+    
+    MsgBox "ID RENUMBER COMPLETE!", vbInformation
+End Function
+
+' First change the ID fields data type in Table design from Autonumber to Number
+' Call this function from an On Open event (I used the main menu's event handler)
+' Re-open the main menu (hit the View button twice)
