@@ -1,0 +1,32 @@
+function onOpen() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var user = Session.getActiveUser().getEmail();
+  var array = user.split(".");
+  var name = array[0];
+  var person = name.toUpperCase();
+  var d = new Date();
+ 
+ var hour = d.getHours();
+ hour = parseInt(hour);
+  if (hour > 12){var time = "AFTERNOON";
+    } else if (hour === 12) {
+        var time = "DAY";
+    } else { 
+        var time = "MORNING";
+  }
+   
+  var day = d.getDay();
+    if (day === 5){wday = "Happy FRIDAY!";
+      } else if (day===3){wday = "Happy HUMPDAY!";
+      } else if (day===1){wday = "Meaningful Monday!";
+      } else if (day===2){wday = "Terrific Tuesday!";
+      } else if (day===4){wday = "Super Thursday!";
+      } else {wday = "Fantastic WEEKEND!";
+    }
+  
+  var message = 'GOOD ' + time + " " + person +  '!\n\nPlease select an available date from the drop down list in the Round 2 Column.' +
+      '\n Ignore the red in the cell corner after you make your selection.  Your selection is indeed valid.' +  
+      '\n\n Have a ' + wday;
+  var ui = SpreadsheetApp.getUi();
+  var result = ui.alert(message,ui.ButtonSet.OK);
+}
