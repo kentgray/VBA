@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" 	src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['gantt']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Task ID');
+      data.addColumn('string', 'Task Name');  
+      data.addColumn('string', 'Phase');
+      data.addColumn('date', 'Start Date');
+      data.addColumn('date', 'End Date');
+      data.addColumn('number', 'Duration');
+      data.addColumn('number', 'Percent Complete');
+      data.addColumn('string', 'Dependencies');
+	  
+      data.addRows([
+	  
+        ['Research', 'Database Initial Study','Database Initial Study',
+         new Date(2017, 0, 10), new Date(2017, 2, 5), 20,  100,  null],
+        ['Write', 'Analyze company situation','Database Initial Study',
+        new Date(2017, 0, 23), new Date(2017,1,22), 2, 90, null],
+        ['Cite', 'Define Objectives','Database Initial Study',
+        new Date(2017, 0, 12), new Date(2017, 1,22), null, 100, null],
+        ['Complete', 'Define Scope and Boundaries','Database Initial Study', 
+         new Date(2017, 1, 24),new Date(2017, 1,27), null, 100, 'Research,Write,Cite'],
+	['Complete1', 'Create SRS & Cost Analysis','Database Initial Study', 
+	new Date(2017, 1, 25),new Date(2017, 2,1), null, 100, 'Research,Write,Cite'],
+	['Outline4', 'DBMS Software Selection','Database Design',
+          new Date(2017, 1, 15), new Date(2017,1,27), null,  100, 'Research,Write,Cite'],
+	['Outline1', 'Database Design','Database Design',
+          new Date(2017, 2, 6), new Date(), null,  40, 'Complete,Research,Write,Cite'],
+        ['Concept', 'Create the Conceptual Model','Database Design',
+          new Date(2017, 2, 16), new Date(2017,3,15), null,  50, 'Outline4'],
+ 	['Concept1', 'Data Analysis & Requirements','Database Design',
+          new Date(2017, 2, 17), new Date(), null,  80, 'Outline4'],
+ 	['Concept2', 'Entity Relationship Modeling & 	Normalization','Database Design', 
+          new Date(2017, 2, 20), new Date(), null,  80, null],
+ 	['Concept3', 'Data Model Verification','Database Design',
+          new Date(2017, 2, 21), new Date(), null,  50, null],
+ 	['Concept4', 'Distributed Database Design','Database Design',
+          new Date(2017, 2, 25), new Date(), null,  30, null],
+	
+	['Outline2', 'Create the Logical Design','Database Design',
+          new Date(2017, 2, 29), new Date(), null,  90, 'Research'],
+	['Outline6', 'Define Product Terminology','Database Design',
+          new Date(2017, 2, 29), new Date(), null,  50, 'Research'],
+	['Outline3', 'Create the Physical Design','Database Design',
+          new Date(   ), new Date(2017,3,23), null,  25, 'Outline6'],
+	['Outline5', 'Implementation & Loading', 'Implementation & Loading', new Date(), new Date(2017,4,10), null,  10, null],
+      	]);
+       var options = {
+        height: 600,
+        gantt: {
+          trackHeight: 30
+        }
+      };
+      var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+<body>
+
+<h1 align="center"><FONT color=blue>ER Improvement Timeline</FONT></h1>
+
+  <div id="chart_div"></div>
+</body>
+</html>
