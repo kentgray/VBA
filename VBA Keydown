@@ -1,0 +1,82 @@
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+'On Error GoTo ErrHandler
+Dim ctl As Control
+Dim fldName As String, srchValFirst As String
+Dim rst As Recordset
+'MsgBox (" The keycode is " & KeyCode)
+Select Case KeyCode
+    Case vbKeyEnd
+        KeyCode = 0
+        DoCmd.RunCommand acCmdRecordsGoToLast
+    Case vbKeyHome
+        KeyCode = 0
+        DoCmd.RunCommand acCmdRecordsGoToFirst
+    Case vbKeyUp
+        KeyCode = 0
+        DoCmd.RunCommand acCmdRecordsGoToPrevious
+    Case vbKeyDown
+        KeyCode = 0
+        DoCmd.RunCommand acCmdRecordsGoToNext
+    Case vbKeyRight, vbKeyLeft
+    Case 27
+        SrchVal = ""
+        KeyCode = 0
+    Case 48 To 57, 65 To 90, 96 To 105  'All Numbers and Letters
+        Set ctl = Screen.ActiveControl
+        fldName = ctl.Name
+        SrchVal = SrchVal & Chr(KeyCode)
+        KeyCode = 0
+        SrchCrit = "[" & fldName & "] Like '" & SrchVal & "*'"
+        Set rst = Me.RecordsetClone
+        rst.FindFirst SrchCrit
+        If rst.NoMatch Then
+            MsgBox ("Record not found! ")
+        Else
+            Me.Bookmark = rst.Bookmark
+        End If
+        rst.Close
+    Case 107, 187  'PLUS KEY
+       KeyCode = 0
+       If SrchVal = "" Then
+          Exit Sub
+       End If
+             Set rst = Me.RecordsetClone
+       rst.FindNext SrchCrit
+       If rst.NoMatch Then
+          MsgBox (" Record not found! ")
+       Else
+          Me.Bookmark = rst.Bookmark
+       End If
+       rst.Close
+
+   Case 109, 189    'MINUS KEY
+      KeyCode = 0
+      If SrchVal = "" Then
+         Exit Sub
+      End If
+            Set rst = Me.RecordsetClone
+      rst.FindPrevious SrchCrit
+      If rst.NoMatch Then
+         MsgBox (" Record not found! ")
+      Else
+         Me.Bookmark = rst.Bookmark
+      End If
+      rst.Close
+    Case 122
+        'Shift = 1, Ctrl = 3, Alt = 4
+        If Shift <> 4 Then
+            KeyCode = 0
+        End If
+    Case Else
+        KeyCode = 0
+End Select
+Exit Sub
+ErrHandler:
+   Select Case Err.Number
+      Case 2046
+      Case Else
+         MsgBox (" Error " & Err.Number & " " & Err.Description & "! ")
+   End Select
+   Resume Next
+
+End Sub
