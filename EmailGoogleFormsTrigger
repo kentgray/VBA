@@ -1,5 +1,5 @@
 function groupEmailer(){
-  var ss = SpreadsheetApp.openById('1JrHijAXOzzVhJfD9o9G0J52bgqwzXfYnvKjVf6HqhPo');
+  var ss = SpreadsheetApp.openById('file URL');
   var sheet = ss.getSheetByName('Form Responses 1');
   var tracker = ss.getSheetByName('tracker');
   var data = sheet.getSheetValues(2, 1, sheet.getLastRow()-1, sheet.getLastColumn());
@@ -15,7 +15,7 @@ function groupEmailer(){
 }
                          
 function emailerOut(data){
-  var recipients = 'kent.gray@kubota.com';
+  var recipients = 'kent.gray@yahoo.com';
   var emailHTML = HtmlService.createHtmlOutputFromFile('EmailExport').getContent();
   var user = Session.getActiveUser().getEmail();
   var array = user.split(".");
