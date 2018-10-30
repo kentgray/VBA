@@ -1,0 +1,14 @@
+Access Update Query
+
+First Select Query: qryFirstName
+  Reference: AllUsers Table
+    Columns: Email, FirstName, Name:
+      Name: Left([Email],InStr([Email],".")-1)
+
+Second Update Query: qryUpdateFirstName
+  Reference: qryFirstName
+    Column: Firstname
+      Update to: [Name]
+      
+Close/Save Update Query: qryUpdateFirstName
+DoubleClick qryUpdateFirstName in Objects pane
