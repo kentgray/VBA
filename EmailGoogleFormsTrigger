@@ -3,35 +3,39 @@ function groupEmailer(){
   var sheet = ss.getSheetByName('Form Responses 1');
   var tracker = ss.getSheetByName('tracker');
   var data = sheet.getSheetValues(2, 1, sheet.getLastRow()-1, sheet.getLastColumn());
+  Logger.clear();
   Logger.log(data);
 //  for(var i=0;i<data.length;i++){
 //    if(data[i][5] != ''){
+  var i = (data.length - 1)
       emailerOut(data);
-      tracker.appendRow([Date(),data[2][1],data[2][8]]);                   
+      tracker.appendRow([Date(),data[i][1],data[i][8]]);                   
 }
                          
 function emailerOut(data){
-  var recipients = 'kent.gray@yahoo.com';
+  var recipients = 'kent.gray@kubota.com';
   var emailHTML = HtmlService.createHtmlOutputFromFile('EmailExport').getContent();
   var user = Session.getActiveUser().getEmail();
   var array = user.split(".");
   var name = array[0];
   var person = name.toUpperCase();
   var date = Utilities.formatDate(new Date(), "GMT+1", "MM/dd/yyyy")
+  var duedate = Utilities.formatDate(data[2][2], "GMT+1", "MM/dd/yyyy")
+  var i = (data.length - 1)
   emailHTML = emailHTML.replace('#DATE', date);
   emailHTML = emailHTML.replace('#NAME', person);
-  emailHTML = emailHTML.replace('#DUE', data[2][2]);
-  emailHTML = emailHTML.replace('#DEPARTMENT', data[2][4]);
-  emailHTML = emailHTML.replace('#PRIORITY', data[2][5]);  
-  emailHTML = emailHTML.replace('#DESCRIPTION', data[2][9]); 
-  MailApp.sendEmail(recipients, 'Work Order: ' + data[2][8], '',{
+  emailHTML = emailHTML.replace('#DUE', duedate);
+  emailHTML = emailHTML.replace('#DEPARTMENT', data[i][4]);
+  emailHTML = emailHTML.replace('#PRIORITY', data[i][5]);  
+  emailHTML = emailHTML.replace('#DESCRIPTION', data[i][9]); 
+  MailApp.sendEmail(recipients, 'Work Order: ' + data[i][7] + ' - ' + data[i][6], '',{
     htmlBody: emailHTML
   });                                              
 }
 
 function test1(){
   var array = ['10/22/2018 16:05:21', 'kent.gray@yahoo.com', '10/23/2018', 'Engineering', 'Medium', 'Tilt Table', 'Install', '123X', 'Remove Counterweights', 'Yes'];
-  sendHTMLEmail(array);
+  emailerOut(array);
 }
 
 
