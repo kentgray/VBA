@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <table class="main">
+     <tr><td>
+      <h1>Work Order Form</h1>
+       <div><b> Generated on #DATE</b></div>
+        <table>
+         <tr><td>
+          <p><b>New Work Order from: #NAME</b></p>
+          <p><b>Due Date: #DUE</b></p>
+          <p><b>Priority: #PRIORITY</b></p> 
+          <p><b>Description: #DESCRIPTION</b></p>
+         </td></tr>
+       </table>
+    </td></tr>
+   </table>
+  </body>
+</html>
