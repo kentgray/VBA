@@ -2,40 +2,83 @@ import os
 import xlwt
 import forecastio
 from openpyxl import load_workbook
+import numpy as np
 
-os.chdir("C:/Users//documents/weather")
-api_key = "xxxxxxx"
+"""
+In command prompt, run these installations:
+pip install xlwt
+pip install python-forecastio
+pip install openpyxl
+pip install numpy
+"""
 
+# Change directory to stored Excel File
+os.chdir("C:/Users/documents/weather")
+
+# Api-Key
+api_key = "xxx"
+
+# Name the Workbook and worksheet data is pulled from
 wb = load_workbook('./Weather_zip2.xlsx')
 sheet = wb['Sheet1']
+
+# Determine last row in worksheet
 last_row = sheet.max_row
 
-book = xlwt.Workbook(encoding="utf-8")
-sheet1 = book.add_sheet("Python Sheet 3")
-
-# The data
+# The lists to upload data
 lat = []
 long = []
 date = []
-allFields = []
 final = []
 
-for cellLat in sheet['B2':'B11']:
+final_row = 'B' + str(last_row)
+
+# The data from spreadsheet
+for cellLat in sheet['B2':'B4']:
     for cell in cellLat:
         lat.append(cell.value)
-              
-for cellLong in sheet['C2':'C11']:
+
+for cellLong in sheet['C2':'C4']:
     for cell in cellLong:
         long.append(cell.value)
-        
-for cellDate in sheet['A2':'A11']:
+
+for cellDate in sheet['A2':'A4']:
     for cell in cellDate:
         date.append(cell.value)
-        
-for cellObj in sheet['A2':'C11']:
-    for cell in cellObj:
-        allFields.append(cell.value)
-        
-#print(date, lat, long)
+
+# The API with forecastio wrapper
 for x, y, z in zip(date, lat, long):
-    forecastio.load_forecast(api_key, y, z, time=x) 
+    final.append(forecastio.load_forecast(api_key, y, z, time=x))
+
+# The Lists to load new data
+allTemps = []
+weather = []
+high = []
+
+# The temperatures from DarkSky
+for row in final:
+    row = row.hourly()
+    dataBlock = row.data
+    for temp in dataBlock:
+        weather.append(temp.temperature)
+
+# Convert to Array
+allTemps = np.array(weather, dtype=np.float32)
+
+# Determine Max temperatures
+high = [max(allTemps[i:i+24]) for i in range(0, len(allTemps), 24)]
+print(high)
+
+# Add new sheet to Workbook
+book = xlwt.Workbook(encoding="utf-8")
+sheet1 = book.add_sheet("HighTemps")
+
+# Export the data to the spreadsheet
+for num in range(1):
+    row = sheet1.row(num)
+    for index, col in enumerate(high):
+        value = high[index] + num
+        row.write(index, value)
+
+# Save the file here
+book.save("WeatherResults.xlsx")
