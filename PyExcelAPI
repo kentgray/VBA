@@ -1,0 +1,41 @@
+import os
+import xlwt
+import forecastio
+from openpyxl import load_workbook
+
+os.chdir("C:/Users//documents/weather")
+api_key = "xxxxxxx"
+
+wb = load_workbook('./Weather_zip2.xlsx')
+sheet = wb['Sheet1']
+last_row = sheet.max_row
+
+book = xlwt.Workbook(encoding="utf-8")
+sheet1 = book.add_sheet("Python Sheet 3")
+
+# The data
+lat = []
+long = []
+date = []
+allFields = []
+final = []
+
+for cellLat in sheet['B2':'B11']:
+    for cell in cellLat:
+        lat.append(cell.value)
+              
+for cellLong in sheet['C2':'C11']:
+    for cell in cellLong:
+        long.append(cell.value)
+        
+for cellDate in sheet['A2':'A11']:
+    for cell in cellDate:
+        date.append(cell.value)
+        
+for cellObj in sheet['A2':'C11']:
+    for cell in cellObj:
+        allFields.append(cell.value)
+        
+#print(date, lat, long)
+for x, y, z in zip(date, lat, long):
+    forecastio.load_forecast(api_key, y, z, time=x) 
