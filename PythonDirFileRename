@@ -12,6 +12,7 @@ root = '//Data/Engineering'
 #  Column A = DocumentNumber
 #  Column B = PartModNo
 #  Column C = Concatenated PartModNo + DocNumber with brackets in Execl File
+#  Also, must make sure that the rows are in the same order as the files in the directory before running the script
 
 for row in sheet.iter_rows("A2:C68"):
     x = os.path.join(root, row[0].value)
