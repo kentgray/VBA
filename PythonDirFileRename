@@ -1,0 +1,21 @@
+import os
+from os import walk
+from os import rename
+from openpyxl import load_workbook
+
+os.chdir('//Data/Engineering')
+wb = load_workbook('./FileNames.xlsx')
+sheet = wb['FolderNames']
+
+root = '//Data/Engineering'
+
+#  Column A = DocumentNumber
+#  Column B = PartModNo
+#  Column C = Concatenated PartModNo + DocNumber with brackets in Execl File
+
+for row in sheet.iter_rows("A2:C68"):
+    x = os.path.join(root, row[0].value)
+    newx = os.path.join(root,row[2].value)
+    if os.path.isdir(x):
+        rename(os.path.join(x, row[0].value + ".pdf"), os.path.join(x, row[2].value + ".pdf"))
+        rename(x, newx)
