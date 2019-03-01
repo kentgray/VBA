@@ -1,0 +1,64 @@
+import os
+import xlsxwriter
+from openpyxl import load_workbook
+
+# Extract new file names from excel file
+os.chdir('C:/Users/kgray/Desktop/LotusOutputs')
+wb = load_workbook('./BX23S1.xlsx')
+sheet = wb['BX23S1']
+last_row = sheet.max_row
+final_row = 'A' + str(last_row)
+
+entire = []
+wg = []
+descrip = []
+manuf = []
+
+for row in sheet['A2':final_row]:
+    for cell in row:
+        entire.append(cell.value)
+        
+for row in entire:
+    if len(row) == 3 or row == 'Fiberglass' or row.startswith('ManuY') or row.startswith('ManuX') or row.startswith('XVendor') \
+    or row.startswith('Vendor') or row.startswith('Vendor') or row.startswith('Vendor') or row.startswith('Vendor') \
+    or row.startswith('Vendor') or row.startswith('Vendor'):
+        manuf.append(row)      
+    elif len(row) < 14:
+        wg.append(row)
+    else:
+        descrip.append(row)     
+  
+print(len(manuf))
+print(len(wg))
+print(len(descrip))
+
+book = xlsxwriter.Workbook('WGFinalFormat.xlsx')
+sheet = book.add_worksheet('New Format')
+row = 1
+col = 0
+
+sheet.write(0,0, "Wholegoods")
+sheet.write(0,1, "Description")
+sheet.write(0,2, "Manufacturer")
+
+for x in wg:
+    sheet.write(row,col,x)
+    row += 1
+    
+row = 1
+for y in descrip: 
+    sheet.write(row,col+1,y)
+    row += 1
+    
+row = 1
+for z in manuf:
+    sheet.write(row,col+2,z)
+    row += 1   
+#for x,y,z in zip(wg, descrip, manuf):
+#    sheet.write(row, col, x)
+#    sheet.write(row, col + 1, y)
+#    sheet.write(row, col + 2, z)
+#    row += 1
+
+book.close()
+
