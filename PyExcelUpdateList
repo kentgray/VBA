@@ -1,0 +1,59 @@
+import os
+import xlsxwriter
+from openpyxl import load_workbook
+
+# Extract new file names from excel file
+os.chdir('C:/Users/Desktop/BookList')
+wb = load_workbook('./BookList.xlsx')
+sheet = wb['Initial']
+last_row = sheet.max_row
+final_row = 'A' + str(last_row)
+
+author = []
+title = []
+both = []
+maxtitle = []
+maxauthor = []
+
+
+for row in sheet['A2':final_row]:
+    for cell in row:
+        both.append(cell.value)
+        
+for row in both:
+    if row.startswith('BY'):
+        author.append(row[3:]) 
+        maxauthor.append(len(row))
+    else:
+        title.append(row) 
+        maxtitle.append(len(row))
+  
+book = xlsxwriter.Workbook('BookFormat.xlsx')
+sheet = book.add_worksheet('New Format')
+row = 1
+col = 0
+
+cformat = book.add_format({'center_across':True, 'font_size':12, 'text_wrap':True, 'valign':True})
+
+tlen = max(maxtitle)-100
+alen = max(maxauthor) + 4
+    
+for x in title:
+    sheet.write(row,col,x, cformat)
+    sheet.set_column(row,col, tlen)
+    row += 1
+    
+row = 1 
+col = 1
+for y in author:
+    sheet.write(row,col,y, cformat)
+    sheet.set_column(row,col, alen)
+    row+=1
+
+cell_format = book.add_format({'center_across':True,'bold':True,'font_size':16,'bottom':True}) 
+
+sheet.write(0,0, "Title", cell_format)
+sheet.write(0,1, "Author(s)", cell_format)
+sheet.write(0,2, "Completed", cell_format)
+   
+book.close()
