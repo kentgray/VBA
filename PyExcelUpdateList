@@ -3,7 +3,7 @@ import xlsxwriter
 from openpyxl import load_workbook
 
 # Extract new file names from excel file
-os.chdir('C:/Users/Desktop/BookList')
+os.chdir('C:/Users/kgray/Desktop/BookList')
 wb = load_workbook('./BookList.xlsx')
 sheet = wb['Initial']
 last_row = sheet.max_row
@@ -33,7 +33,8 @@ sheet = book.add_worksheet('New Format')
 row = 1
 col = 0
 
-cformat = book.add_format({'center_across':True, 'font_size':12, 'text_wrap':True, 'valign':True})
+cformat = book.add_format({'center_across':True, 'font_size':12, 'text_wrap':True})
+cformat.set_align('vcenter')
 
 tlen = max(maxtitle)-100
 alen = max(maxauthor) + 4
