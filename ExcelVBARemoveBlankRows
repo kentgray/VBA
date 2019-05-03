@@ -1,0 +1,17 @@
+Sub DeleteAllEmptyRows()
+    Dim LastRowIndex As Integer
+    Dim RowIndex As Integer
+    Dim UsedRng As Range
+ 
+    Set UsedRng = ActiveSheet.UsedRange
+    LastRowIndex = UsedRng.Row - 1 + UsedRng.Rows.Count
+    Application.ScreenUpdating = False
+ 
+    For RowIndex = LastRowIndex To 1 Step -1
+        If Application.CountA(Rows(RowIndex)) = 0 Then
+            Rows(RowIndex).Delete
+        End If
+    Next RowIndex
+ 
+    Application.ScreenUpdating = True
+End Sub
