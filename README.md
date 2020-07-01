@@ -1,5 +1,5 @@
 # Work Projects
-These are various modules and script files built out for work projects.
+These are various modules and script files built out for work projects, primarily for API and ETL workflows.
 
 The VBA code is for a document management system in MS Access 2016. <br />
 The JS code is for departmental communication/tracking primarily in Google sheets.<br />
